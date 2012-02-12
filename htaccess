@@ -1,0 +1,74 @@
+SetEnv SITE_WEBMASTER "Gabriel Ulici"
+SetEnv SITE_WEBMASTER_URI mailto:ulicigabriel@gmail.com
+
+################ Errors Control ################
+ErrorDocument 401 /404.html  
+ErrorDocument 403 /404.html  
+ErrorDocument 404 /404.html 
+ErrorDocument 500 /404.html
+
+################ Indexing Control ################
+Options All -Indexes 
+
+################ Expires Control ################
+ExpiresActive On
+ExpiresDefault "access plus 1 year"
+# 1 YEAR
+<FilesMatch "\.(ico|pdf|flv|mp3|mp4)$">
+Header set Cache-Control "max-age=29030400, public"
+</FilesMatch>
+# 1 WEEK
+<FilesMatch "\.(jpg|jpeg|png|gif|swf)$">
+Header set Cache-Control "max-age=604800, public"
+</FilesMatch>
+# 2 DAYS
+<FilesMatch "\.(xml|txt|css|js)$">
+Header set Cache-Control "max-age=604800, proxy-revalidate"
+</FilesMatch>
+# 1 MIN
+<FilesMatch "\.(html|htm|php)$">
+Header set Cache-Control "max-age=60, private, proxy-revalidate"
+</FilesMatch>
+#disable cache for script files  
+<FilesMatch "\.(pl|cgi|spl|scgi|fcgi)$">  
+Header unset Cache-Control  
+</FilesMatch>
+
+################## GZip Files ###################
+#<FilesMatch "\.js$">
+#AddHandler application/x-httpd-php .js
+#php_value default_mimetype "text/javascript"
+#</FilesMatch>
+<FilesMatch "\.css$">
+AddHandler application/x-httpd-php .css
+php_value default_mimetype "text/css"
+</FilesMatch>
+<FilesMatch "\.(htm|html|shtml)$">
+AddHandler application/x-httpd-php .html
+php_value default_mimetype "text/html"
+</FilesMatch>
+php_value auto_prepend_file /home/a8940067/public_html/1m/gzip.php
+
+################## Cum arata url Files ###################
+#RewriteEngine on
+#RewriteRule ^about/$    /pages/about.html [L]
+#RewriteRule ^features/$ /features.php [L]
+#RewriteRule ^buy/$      /buy.html [L]
+#RewriteRule ^contact/$  /pages/contact.htm [L]
+
+################## Boots Files ###################
+# deny access to evil robots site rippers offline browsers and other nasty scum
+RewriteBase /
+RewriteCond %{HTTP_USER_AGENT} ^Anarchie [OR]
+RewriteCond %{HTTP_USER_AGENT} ^ASPSeek [OR]
+RewriteCond %{HTTP_USER_AGENT} ^attach [OR]
+RewriteCond %{HTTP_USER_AGENT} ^autoemailspider [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Xaldon\ WebSpider [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Xenu [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Zeus.*Webster [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Zeus
+# send em to a virtual blackhole of fake email addresses
+RewriteRule ^.*$ http://english-61925045732.spampoison.com [R,L]
+
+################## Protect against DOS attacks ###################
+LimitRequestBody 10240000
