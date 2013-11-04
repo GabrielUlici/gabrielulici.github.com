@@ -20,6 +20,7 @@
   })();
 
 </script>
+
 </head>
 <body>
 
@@ -125,9 +126,23 @@
     </div> 
 </div> </div> 
  <footer>
-    <p align="center">Copyright &copy; 1987 - 2012 All Rights Reserved - <a href="https://www.facebook.com/pages/Night-Ideas-Lab-Inc-NIL/317572421612923">Night Ideas Lab Inc.</a></p>
+    <p align="center">Copyright &copy; 1987 - <span id="copyR"> </span> All Rights Reserved - <a href="https://www.facebook.com/pages/Night-Ideas-Lab-Inc-NIL/317572421612923">Night Ideas Lab</a></p>
     <br class="clear" />
   </footer>
+  	
+  	<script type="text/javascript">
+  	function SetYear() {
+	  	var thisDate=new Date();
+	  	var thisYear=thisDate.getFullYear();
+	  	document.getElementById('copyR').innerHTML=thisYear;
+	 }
+	 
+	 window.onload= function() {
+		 SetYear();
+	}
+
+  	</script>
+  
 <!-- Footer Section END --> 
     </body>
 </html>
